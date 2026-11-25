@@ -2,6 +2,50 @@
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-brainlife.app.514-blue.svg)](https://doi.org/10.25663/brainlife.app.514)
 
 # app-mp2rage-computeT1andR1
+
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+> **Estimates quantitative T1 and R1 maps from a denoised Siemens MP2RAGE acquisition with a lookup-table method (compiled MATLAB, adapted from MP2RAGE-related-scripts).**
+
+Reads the INV1, INV2 and UNI images with their JSON sidecars, builds the MP2RAGE signal lookup table from the sequence parameters and converts the UNI image into T1 and R1 (1/T1) maps; QA plots of the B1 sensitivity and value histograms are added to the product. Run app-mp2rage-denoiseUNI first. Only Siemens MP2RAGE data are supported; slicesperslab must be given when it is not in the image header.
+
+| | |
+|---|---|
+| 📥 **Inputs** | `neuro/anat/mp2rage` · `neuro/mask` (optional) |
+| 📤 **Outputs** | `neuro/anat/qmri` |
+| 🐳 **Container** | `brainlife/mcr:2020a` |
+| ⚙️ **Resources** | 1 CPUs |
+| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.514](https://doi.org/10.25663/brainlife.app.514) |
+
+#### 📥 Inputs
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `neuro/anat/mp2rage` | `neuro/anat/mp2rage` (denoised) | yes | Denoised MP2RAGE dataset: INV1 and INV2 magnitude images, the UNI image and their JSON sidecars (sequence parameters are read from them). |
+| `neuro/mask` | `neuro/mask` | no | Optional brain mask applied to the maps. |
+
+#### 📤 Outputs
+
+| Output | Datatype | Description |
+|---|---|---|
+| `output` | `neuro/anat/qmri` | T1map and R1 map |
+
+<details>
+<summary><b>⚙️ Parameters</b> (1)</summary>
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `slicesperslab` | number |  | Slices Per Slab should be available in the MRI sequence protocol. It is not always available in the image's header information. If you are sure that Slices Per Slab is available in the image's header information, you can leave this blank and we will get the value from there. Otherwise, please look up this value in the MRI sequence protocol and enter it here. |
+
+</details>
+
+📚 **References used by this App:**
+- Avesani P, McPherson B, Hayashi S, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6, 69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
+- Marques JP, Gruetter R. New developments and applications of the MP2RAGE sequence - focusing the contrast and high spatial resolution R1 mapping. PLoS One 8(7):e69294 (2013). [doi:10.1371/journal.pone.0069294](https://doi.org/10.1371/journal.pone.0069294)
+- Caan MWA, et al. MP2RAGEME: T1, T2*, and QSM mapping in one sequence at 7 tesla. Hum Brain Mapp 40(6):1786-1798 (2019).
+
+<!-- brainlife-app:end -->
+
 This app estimates T1map and R1map from MP2RAGE sequence. Before using this app to compute the T1 and R2 maps, you must first denoise the mp2rage uni image (see app-mp2rage-denoiseUNI).
 
 Currently, only MP2RAGE data collected on Siemens MRI scanners is supported.
